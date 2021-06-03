@@ -45,6 +45,16 @@ public class SolverTest {
     }
 
     @Test
+    public void solve_multiply_overprioritize_addition() {
+        assertEquals(solverService.solve("4*3+2"), 14);
+    }
+
+    @Test
+    public void solve_inverted_multiply_overprioritize_addition() {
+        assertEquals(solverService.solve("2+4*3"), 14);
+    }
+
+    @Test
     public void solve_error() {
         assertThrows(WebApplicationException.class, () -> solverService.solve("5+"));
     }
