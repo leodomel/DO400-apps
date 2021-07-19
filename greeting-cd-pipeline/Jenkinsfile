@@ -17,10 +17,11 @@ pipeline {
         // Add more stages here
 	stage('Deploy'){
 		steps {
-			sh '''
-				oc start-build greeting-metrics \ 
-				--follow --wait -n xymmiw-metrics
-			'''
+			sh ''' echo "Deploying" '''
+			//sh '''
+			//	oc start-build greeting-metrics \ 
+			//	--follow --wait -n xymmiw-metrics
+			//'''
 		}
 
 	}
