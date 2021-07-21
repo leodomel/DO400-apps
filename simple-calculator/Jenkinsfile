@@ -19,7 +19,14 @@ pipeline {
 		stage('Check Style') {
 			steps {
 				dir('simple-calculator') {
-					sh './mvnw clean checkstyle:check'
+					script {
+						try {
+							sh './mvnw clean checkstyle:check'
+						} catch (Exception e) {
+							sendWarningAlert("${STAGE_NAME}", 'devs@example.com')
+							unstable("${STAGE_NAME} stage failed!")
+						}
+					}
 				}
 			}
 		}
@@ -44,4 +51,10 @@ void sendFailureAlert(String email) {
     mail to: "${email}",
         subject: "Pipeline failed: ${currentBuild.fullDisplayName}",
         body: "The following pipeline failed: ${env.BUILD_URL}"
+}
+
+void sendWarningAlert(String stage, String email) {
+    mail to: "${email}",
+        subject: "${stage} stage failed: ${currentBuild.fullDisplayName}",
+        body: "The ${stage} stage failed: ${env.BUILD_URL}"
 }
